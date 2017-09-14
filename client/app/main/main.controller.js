@@ -13,5 +13,4 @@ angular.module('medicationReminderApp').controller('MainCtrl', function ($scope,
         $scope.currentTime = moment().format('MMMM Do YYYY, h:mm:ss a');
         $scope.$apply();
     }, 1000);
-
 });
