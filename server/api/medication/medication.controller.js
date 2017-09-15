@@ -14,7 +14,7 @@ exports.index = function (req, res) {
             ]
         };
     }
-    q(Medication.find(query).sort({'d.c': -1}).exec()).then(function (meds) {
+    q(Medication.find(query).sort({'time': 1}).exec()).then(function (meds) {
         res.json(meds);
     }).catch(function (err) {
         console.error('Error occured listing medications', err);
