@@ -10,6 +10,8 @@ angular.module('medicationReminderApp').controller('MainCtrl', function ($scope,
     });
 
     $window.setInterval(function () {
+        $scope.currentTimeBrut = moment().format('YYYYMMDDHHmm');
+        $scope.lessFiveMinutesTimeBrut = moment().subtract(5, 'minute').format('YYYYMMDDHHmm');
         $scope.currentTime = moment().format('MMMM Do YYYY, h:mm:ss a');
         $scope.$apply();
     }, 1000);
