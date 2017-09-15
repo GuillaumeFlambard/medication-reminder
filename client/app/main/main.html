@@ -14,7 +14,7 @@
   <div class="row">
     <div class="col-lg-6 col-lg-offset-3 text-center">
         <div ng-repeat="m in meds">
-            {{m.time|date:'medium'}} {{m.name}} {{m.dosage}} <a ng-if="!m.completed" ng-click="completeMedication(m)">Completed</a>
+            {{m.time|date:'medium'}} {{m.name}} {{m.dosage}} <a ng-if="!m.completed && (m.time|date:'yyyyMMddHH')<=addFiveMinutesTimeBrut" ng-click="completeMedication(m)">Completed</a>
             <span ng-if="!m.completed && (m.time|date:'yyyyMMddHH')<lessFiveMinutesTimeBrut"> delay</span>
         </div>
     </div>
