@@ -5,11 +5,14 @@
       <h1>{{currentTime}}</h1>
   </div>
 </header>
+<!--tmp spaces-->
+<br><br><br>
+---<br>
 <div class="container">
   <div class="row">
     <div class="col-lg-6 col-lg-offset-3 text-center">
         <div ng-repeat="m in meds">
-            {{m.time}} {{m.name}} {{m.dosage}}
+            {{m.time}} {{m.name}} {{m.dosage}} <a ng-if="!m.completed" ng-click="completeMedication(m)">Completed</a>
         </div>
     </div>
   </div>
