@@ -2,15 +2,21 @@
 
 angular.module('medicationReminderApp').controller('MainCtrl', function ($scope, $http, $window) {
 
+    /**
+     * If the date selected change we load the medication of this new date
+     */
     $scope.$watch("datepicker", function(newValue, oldValue) {
-        var start = moment(newValue).format('MM/DD/YYYY'),
-            end = moment(newValue).add(1, 'day').format('MM/DD/YYYY');
+        var start = moment(newValue).format('MM/DD/YYYY');
+        var end = moment(newValue).add(1, 'day').format('MM/DD/YYYY');
 
         $http.get('/api/medications?start=' + start + '&end=' + end).then(function (meds) {
             $scope.meds = meds.data;
         });
     });
 
+    /**
+     * Load all mist medications
+     */
     var now = moment().add(5, 'minute').format('MM/DD/YYYY HH');
     $http.get('/api/medications?start=' + now + '&completed=0').then(function (meds) {
         $scope.mistMeds = meds.data;
@@ -38,28 +44,28 @@ angular.module('medicationReminderApp').controller('MainCtrl', function ($scope,
         delete medication['$$hashKey'];
         medication.completed = true;
         $http.put('/api/medications/' + medication._id, JSON.stringify(medication)).then(function (response) {
-            if (response.status == 200)
-            {
+            if (response.status == 200) {
                 //If this medication is the name medication we have to reset the next medication
-                if ($scope.nextMed && response.data._id == $scope.nextMed._id)
-                {
+                if ($scope.nextMed && response.data._id == $scope.nextMed._id) {
                     $scope.nextMed = null;
                 }
             }
         });
     };
 
+    /**
+     * We considerate that there is only one medication a time
+     * @param currentTime
+     */
     function managedNextMedication(currentTime) {
         //Set nextMed if nextMed is null
-        if (!$scope.nextMed)
-        {
+        if (!$scope.nextMed) {
             $http.get('/api/medications/next_medication').then(function (nextMed) {
                 $scope.nextMed = nextMed.data;
             });
         }
 
-        if ($scope.nextMed)
-        {
+        if ($scope.nextMed) {
             var nextMedicationTime = moment($scope.nextMed.time);
 
             if (typeof $scope.nextMed != "undefined" && currentTime.diff(nextMedicationTime) >= 0 && currentTime.diff(nextMedicationTime) < 1000) {
