@@ -10,16 +10,21 @@
 ---<br>
 <div class="container">
   <div class="row">
-      <div class="col-lg-6 text-center">
-          <div ng-repeat="m in mistMeds">
-              {{m.time|date:'medium'}} {{m.name}} {{m.dosage}} <a ng-if="!m.completed && (m.time|date:'yyyyMMddHH')<=addFiveMinutesTimeBrut" ng-click="completeMedication(m)">Completed</a>
-              <span ng-if="!m.completed && (m.time|date:'yyyyMMddHH')<lessFiveMinutesTimeBrut"> delay</span>
-          </div>
+    <div class="col-lg-4 text-center">
+        <div>
+
+        </div>
+    </div>
+    <div class="col-lg-4 text-center">
+      <div ng-repeat="m in mistMeds">
+          {{m.time|date:'medium'}} {{m.name}} {{m.dosage}} <a ng-if="!m.completed && (m.time|date:'yyyyMMddHHmm')<=addFiveMinutesTimeBrut" ng-click="completeMedication(m)">Completed</a>
+          <span ng-if="!m.completed && (m.time|date:'yyyyMMddHHmm')<lessFiveMinutesTimeBrut"> delay</span>
       </div>
-    <div class="col-lg-6 text-center">
+    </div>
+    <div class="col-lg-4 text-center">
         <div ng-repeat="m in meds">
-            {{m.time|date:'medium'}} {{m.name}} {{m.dosage}} <a ng-if="!m.completed && (m.time|date:'yyyyMMddHH')<=addFiveMinutesTimeBrut" ng-click="completeMedication(m)">Completed</a>
-            <span ng-if="!m.completed && (m.time|date:'yyyyMMddHH')<lessFiveMinutesTimeBrut"> delay</span>
+            {{m.time|date:'medium'}} {{m.name}} {{m.dosage}} <a ng-if="!m.completed && (m.time|date:'yyyyMMddHHmm')<=addFiveMinutesTimeBrut" ng-click="completeMedication(m)">Completed</a>
+            <span ng-if="!m.completed && (m.time|date:'yyyyMMddHHmm')<lessFiveMinutesTimeBrut"> delay</span>
         </div>
     </div>
   </div>
