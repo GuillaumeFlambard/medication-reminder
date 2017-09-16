@@ -4,6 +4,7 @@ var controller = require('./medication.controller'),
     router = require('express').Router();
 
 router.get('/', controller.index);
+router.get('/next_medication', controller.nextMedication);
 router.get('/:id', controller.show);
 router.post('/', controller.create);
 router.put('/:id', controller.update);

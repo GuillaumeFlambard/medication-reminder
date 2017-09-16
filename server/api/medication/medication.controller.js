@@ -13,11 +13,22 @@ exports.index = function (req, res) {
                 { time: { $lt: moment(req.query.end, 'MM/DD/YYYY').toDate() } }
             ]
         };
+    } else if (req.query.start)
+    {
+        query.time = { $lt: moment(req.query.start, 'MM/DD/YYYY HH').toDate() };
     }
+
+    if (req.query.completed)
+    {
+        query.completed = req.query.completed;
+    }
+
+    console.log('query', query);
+
     q(Medication.find(query).sort({'time': 1}).exec()).then(function (meds) {
         res.json(meds);
     }).catch(function (err) {
-        console.error('Error occured listing medications', err);
+        console.error('Error occurred listing medications', err);
         res.send(500);
     });
 };
@@ -30,7 +41,20 @@ exports.show = function (req, res) {
             res.send(404);
         }
     }).catch(function (err) {
-        console.error('Error occured getting medication', err);
+        console.error('Error occurred getting medication', err);
+        res.send(500);
+    });
+};
+
+exports.nextMedication = function (req, res) {
+    q(Medication.findOne({completed:false, time:{ $gte:moment().toDate()}}).sort({'time': 1}).exec()).then(function (med) {
+        if (med) {
+            res.json(med);
+        } else {
+            res.send(404);
+        }
+    }).catch(function (err) {
+        console.error('Error occurred getting medication', err);
         res.send(500);
     });
 };
@@ -42,7 +66,7 @@ exports.create = function (req, res) {
     q(Medication.create(req.body)).then(function (med) {
         res.json(201, med);
     }).catch(function (err) {
-        console.error('Error occured creating medication', err);
+        console.error('Error occurred creating medication', err);
         res.send(500);
     });
 };
@@ -58,7 +82,7 @@ exports.update = function (req, res) {
             }
         });
     }).catch(function (err) {
-        console.error('Error occured updating medication', err);
+        console.error('Error occurred updating medication', err);
         res.send(500);
     });
 };
@@ -71,7 +95,7 @@ exports.destroy = function (req, res) {
             res.send(204);
         }
     }).catch(function (err) {
-        console.error('Error occured deleting medication', err);
+        console.error('Error occurred deleting medication', err);
         res.send(500);
     });
 };
