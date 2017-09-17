@@ -65,7 +65,6 @@ angular.module('medicationReminderApp').controller('MainCtrl', function ($scope,
         if (!$scope.nextMed) {
             $http.get('/api/medications/next_medication').then(function (nextMed) {
                 $scope.nextMed = nextMed.data;
-                // showNotification($scope.nextMed, 2);
             });
         }
 
@@ -91,13 +90,16 @@ angular.module('medicationReminderApp').controller('MainCtrl', function ($scope,
         if (medication) {
             if (levelImportance === 1) {
                 var title = 'Don\'t forget to take your medication.';
+                var audio = new Audio('../../assets/sounds/alert_1.wav');
             } else if (levelImportance === 2) {
                 var title = 'You are late to take your medication...';
+                var audio = new Audio('../../assets/sounds/alert_2.wav');
             }
 
             var body = moment(medication.time).format('hh:mm a') + ' ' + medication.name + ' - ' + medication.dosage;
             var icon = 'https://pbs.twimg.com/profile_images/557991410196951040/NN5BmXID.png';
             new Notification(title,{body:body,icon:icon});
+            audio.play();
         }
     }
 });
