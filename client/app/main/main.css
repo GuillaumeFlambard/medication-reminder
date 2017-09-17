@@ -1,3 +1,63 @@
+.medicationsRow {
+    text-align: center;
+    margin-bottom: 15px;
+    padding: 5px;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid grey;
+    border-right: 1px solid #e0e0e0;
+    border-left: 1px solid grey;
+    width: 300px;
+    height: 100px;
+    font-size: 18px;
+}
+
+.button {
+    background-color: #287aac;
+    color: #ffffff;
+    width: 80px;
+    margin-bottom: 5px;
+    display: inline-block;
+    font-weight: bold;
+}
+
+.button:hover {
+    color: #ffffff;
+    box-shadow: 3px 3px 1px #b2b2b2;
+}
+
+.mist {
+    color: red;
+    line-height: 35px;
+}
+
+.waiting {
+    color: #e67e22;
+    line-height: 35px;
+}
+
+.completed {
+    color: green;
+    line-height: 35px;
+}
+
+.scroll {
+    max-height: 800px;
+    overflow: hidden;
+}
+
+.scroll:hover {
+    overflow-y: auto;
+}
+
+.scrollMist {
+    max-height: 500px;
+    overflow-y: hidden;
+}
+
+.scrollMist:hover {
+    overflow-y: auto;
+}
+
 .thing-form {
     margin: 20px 0;
 }

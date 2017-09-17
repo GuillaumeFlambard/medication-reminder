@@ -1,6 +1,9 @@
 'use strict';
 
 angular.module('medicationReminderApp').controller('MainCtrl', function ($scope, $http, $window) {
+    Notification.requestPermission();
+
+    $scope.datepicker = new Date();
 
     /**
      * If the date selected change we load the medication of this new date
@@ -62,24 +65,39 @@ angular.module('medicationReminderApp').controller('MainCtrl', function ($scope,
         if (!$scope.nextMed) {
             $http.get('/api/medications/next_medication').then(function (nextMed) {
                 $scope.nextMed = nextMed.data;
+                // showNotification($scope.nextMed, 2);
             });
         }
 
         if ($scope.nextMed) {
             var nextMedicationTime = moment($scope.nextMed.time);
 
-            if (typeof $scope.nextMed != "undefined" && currentTime.diff(nextMedicationTime) >= 0 && currentTime.diff(nextMedicationTime) < 1000) {
-                console.log('Alert 1');
+            if (currentTime.diff(nextMedicationTime) >= 0 && currentTime.diff(nextMedicationTime) < 1000) {
+                showNotification($scope.nextMed, 1);
             } else {
                 nextMedicationTime.add(5, 'minute');
-                if (typeof $scope.nextMed != "undefined" && currentTime.diff(nextMedicationTime) >= 0 && currentTime.diff(nextMedicationTime) < 1000) {
-                    console.log('Alert 2');
+                if (currentTime.diff(nextMedicationTime) >= 0 && currentTime.diff(nextMedicationTime) < 1000) {
+                    showNotification($scope.nextMed, 2);
                     //put this medication in the mist medication list
                     $scope.mistMeds.push($scope.nextMed);
                     //Set nextMed to null to reset next med
                     $scope.nextMed = null;
                 }
             }
+        }
+    }
+
+    function showNotification(medication, levelImportance)  {
+        if (medication) {
+            if (levelImportance === 1) {
+                var title = 'Don\'t forget to take your medication.';
+            } else if (levelImportance === 2) {
+                var title = 'You are late to take your medication...';
+            }
+
+            var body = moment(medication.time).format('hh:mm a') + ' ' + medication.name + ' - ' + medication.dosage;
+            var icon = 'https://pbs.twimg.com/profile_images/557991410196951040/NN5BmXID.png';
+            new Notification(title,{body:body,icon:icon});
         }
     }
 });

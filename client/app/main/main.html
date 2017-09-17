@@ -1,29 +1,42 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
-<header class="hero-unit" id="banner">
-  <div class="container">
-      <h1>{{currentTime}}</h1>
-  </div>
-</header>
+<!--<header class="hero-unit" id="banner">-->
+  <!--<div class="container">-->
+  <!--</div>-->
+<!--</header>-->
 <!--tmp spaces-->
-<br><br><br>
----<br>
 <div class="container">
   <div class="row">
-    <div class="col-lg-4 text-center">
-        <datepicker ng-model="datepicker"></datepicker>
-    </div>
-    <div class="col-lg-4 text-center">
-      <div ng-repeat="m in mistMeds">
-          {{m.time|date:'medium'}} {{m.name}} {{m.dosage}} <a ng-if="!m.completed && (m.time|date:'yyyyMMddHHmm')<=addFiveMinutesTimeBrut" ng-click="completeMedication(m)">Completed</a>
-          <span ng-if="!m.completed && (m.time|date:'yyyyMMddHHmm')<lessFiveMinutesTimeBrut"> delay</span>
-      </div>
-    </div>
-    <div class="col-lg-4 text-center">
-        <div ng-repeat="m in meds">
-            {{m.time|date:'medium'}} {{m.name}} {{m.dosage}} <a ng-if="!m.completed && (m.time|date:'yyyyMMddHHmm')<=addFiveMinutesTimeBrut" ng-click="completeMedication(m)">Completed</a>
-            <span ng-if="!m.completed && (m.time|date:'yyyyMMddHHmm')<lessFiveMinutesTimeBrut"> delay</span>
+    <div class="col-lg-4">
+        <h2>Medications of {{ datepicker|date:'dd MMM' }}</h2>
+        <div class="scroll">
+            <div ng-repeat="m in meds" class="pull-left medicationsRow">
+                {{m.time|date:'medium'}}<br>
+                {{m.name}} {{m.dosage}}
+                <br>
+                <a class="btn btn-block button" ng-if="!m.completed && (m.time|date:'yyyyMMddHHmm')<=addFiveMinutesTimeBrut" ng-click="completeMedication(m)">Complete</a>
+                <span ng-if="m.completed" class="completed">Completed <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span>
+                <span ng-if="!m.completed && (m.time|date:'yyyyMMddHHmm')>lessFiveMinutesTimeBrut" class="waiting">Waiting <span class="glyphicon glyphicon-time" aria-hidden="true"></span></span>
+                <span ng-if="!m.completed && (m.time|date:'yyyyMMddHHmm')<=lessFiveMinutesTimeBrut" class="mist">Missed <span class="glyphicon glyphicon-flag" aria-hidden="true"></span></span>
+            </div>
+            <h4 ng-show="meds.length==0">No medications plan for the {{ datepicker|date:'dd MMMM' }}</h4>
         </div>
+    </div>
+    <div class="col-lg-6 col-lg-offset-2">
+        <h2>Calendar</h2>
+         <h4>Current Date {{currentTime}}</h4>
+        <datepicker ng-model="datepicker"></datepicker><br>
+        <h2>Medication missed <span class="glyphicon glyphicon-flag mist" aria-hidden="true"></span></h2>
+        <div class="scrollMist">
+            <div ng-repeat="m in mistMeds" class="pull-left medicationsRow">
+                {{m.time|date:'medium'}}<br>
+                {{m.name}} {{m.dosage}}
+                <br>
+                <span ng-if="m.completed" class="completed">Completed <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span>
+                <a class="btn btn-block button" ng-if="!m.completed && (m.time|date:'yyyyMMddHHmm')<=addFiveMinutesTimeBrut" ng-click="completeMedication(m)">Complete</a>
+            </div>
+        </div>
+        <h4 ng-show="mistMeds.length==0">No medications missed</h4>
     </div>
   </div>
 </div>
