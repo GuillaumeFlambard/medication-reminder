@@ -25,7 +25,7 @@
     box-shadow: 3px 3px 1px #b2b2b2;
 }
 
-.mist {
+.missed {
     color: red;
     line-height: 35px;
 }
@@ -49,12 +49,12 @@
     overflow-y: auto;
 }
 
-.scrollMist {
+.scrollMissed {
     max-height: 500px;
     overflow-y: hidden;
 }
 
-.scrollMist:hover {
+.scrollMissed:hover {
     overflow-y: auto;
 }
 
